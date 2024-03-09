@@ -2,7 +2,6 @@ package ch.hftm.stankovic.resource;
 
 import ch.hftm.stankovic.module.Inventory;
 import ch.hftm.stankovic.repository.InventoryRepository;
-
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +31,8 @@ public class InventoryResourceTest {
 
     @Test
     public void testGetAllInventories() {
-        Inventory inventory1 = new Inventory(1L, 1L, 10);
-        Inventory inventory2 = new Inventory(2L, 2L, 20);
+        Inventory inventory1 = new Inventory(1L, 1L, 10, 2);
+        Inventory inventory2 = new Inventory(2L, 2L, 20, 5);
         List<Inventory> inventories = Arrays.asList(inventory1, inventory2);
 
         when(inventoryRepository.listAll()).thenReturn(inventories);
@@ -45,7 +44,7 @@ public class InventoryResourceTest {
 
     @Test
     public void testGetInventoryByProductId() {
-        Inventory inventory = new Inventory(1L, 1L, 10);
+        Inventory inventory = new Inventory(1L, 1L, 10, 4);
 
         when(inventoryRepository.findByProductId(1L)).thenReturn(inventory);
 
@@ -56,7 +55,7 @@ public class InventoryResourceTest {
 
     @Test
     public void testCreateInventory() {
-        Inventory inventory = new Inventory(null, 1L, 10);
+        Inventory inventory = new Inventory(null, 1L, 10, 5);
 
         when(inventoryRepository.findByProductId(inventory.getProductId())).thenReturn(null);
 
@@ -68,7 +67,7 @@ public class InventoryResourceTest {
 
     @Test
     public void testUpdateInventory() {
-        Inventory inventory = new Inventory(1L, 1L, 10);
+        Inventory inventory = new Inventory(1L, 1L, 10, 4);
 
         when(inventoryRepository.findByProductId(1L)).thenReturn(inventory);
 
@@ -80,7 +79,7 @@ public class InventoryResourceTest {
 
     @Test
     public void testDeleteInventory() {
-        Inventory inventory = new Inventory(1L, 1L, 10);
+        Inventory inventory = new Inventory(1L, 1L, 10, 5);
 
         when(inventoryRepository.findByProductId(1L)).thenReturn(inventory);
 

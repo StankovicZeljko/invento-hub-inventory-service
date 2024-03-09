@@ -12,10 +12,12 @@ public class InventoryTest {
     public void testInventory() {
         Long productId = 1L;
         Integer quantity = 10;
+        Integer minQuantity = 3;
 
-        Inventory inventory = new Inventory(1L, productId, quantity);
+        Inventory inventory = new Inventory(1L, productId, quantity, minQuantity);
 
         assertEquals(productId, inventory.getProductId());
         assertEquals(quantity, inventory.getQuantity());
+        assertEquals(minQuantity, inventory.getMinQuantity());
     }
 }

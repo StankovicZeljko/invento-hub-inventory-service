@@ -23,4 +23,7 @@ public class Inventory {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
+
+    @Column(name = "min_quantity", nullable = false)
+    private Integer minQuantity;
 }
