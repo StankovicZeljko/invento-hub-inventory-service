@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -22,6 +23,7 @@ jobs:
     if: github.ref == 'refs/heads/dev'
     needs: test
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -32,6 +34,11 @@ jobs:
           cache: maven
       - name: Package
         run: ./mvnw package -DskipTests
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: quarkus-app
+          path: target/quarkus-app/
 
   docker:
     if: github.ref == 'refs/heads/dev'
@@ -40,12 +47,17 @@ jobs:
     environment: dev
     steps:
       - uses: actions/checkout@v3
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: quarkus-app
+          path: target/
       - name: Build Docker image
-        run: docker build -f src/main/docker/Dockerfile.jvm -t codingwulf/invento-hub-inventory-service .
+        run: docker build -f src/main/docker/Dockerfile.jvm -t codingwulf/invento-hub-product-service .
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Push Docker image
-        run: docker push codingwulf/invento-hub-inventory-service
+        run: docker push codingwulf/invento-hub-product-service
